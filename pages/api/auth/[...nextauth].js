@@ -1,5 +1,5 @@
 import NextAuth from "next-auth"
-import Providers from "next-auth/providers"
+import { SupabaseAdapter } from "@auth/supabase-adapter"
 
 export default NextAuth({
   // Configure one or more authentication providers
