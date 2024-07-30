@@ -6,7 +6,11 @@
     "start": "next start"
   },
   "dependencies": {
+    "@auth/supabase-adapter": "^1.4.2",
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5",
     "next": "latest",
+    "next-auth": "^4.24.7",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
