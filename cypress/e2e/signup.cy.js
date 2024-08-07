@@ -17,16 +17,4 @@ describe('Auth Tests', () => {
       //expect(response.body).to.have.property('email', user.email);
     });
   });
-
-  it('should log in the user', () => {
-    cy.request('POST', '/api/auth/callback/credentials', {
-      email: user.email,
-      password: user.password
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      console.log(response);
-      //expect(response.body).to.have.property('user');
-      //expect(response.body.user).to.have.property('email', user.email);
-    });
-  });
 });

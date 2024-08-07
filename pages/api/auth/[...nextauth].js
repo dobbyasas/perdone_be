@@ -9,11 +9,10 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-
 export default NextAuth({
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
@@ -27,8 +26,12 @@ export default NextAuth({
         const user = users ? users[0] : null;
 
         if (user && (await compare(credentials.password, user.password))) {
+          console.log("TEST1");
           return { id: user.id, name: user.name, email: user.email };
         } else {
+          // Return null to indicate invalid credentials
+          console.log("TEST2");
+          throw new Error('Invalid credentials');
           return null;
         }
       }
@@ -47,8 +50,12 @@ export default NextAuth({
     async session(session, token) {
       session.user.id = token.id;
       return session;
-    }
+    },
   },
-  adapter: SupabaseAdapter({ url: process.env.SUPABASE_URL, secret: process.env.SUPABASE_SERVICE_ROLE_KEY }),
-  secret: process.env.SECRET
+  adapter: SupabaseAdapter({
+    url: process.env.SUPABASE_URL,
+    secret: process.env.SUPABASE_SERVICE_ROLE_KEY
+  }),
+  secret: process.env.SECRET,
+  
 });
