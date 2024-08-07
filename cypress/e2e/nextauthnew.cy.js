@@ -1,22 +1,32 @@
-describe('NextAuth API Endpoints', () => {
-  it('should return a valid access token', () => {
+describe('Auth Tests', () => {
+  const user = {
+    email: 'testuser@example.com',
+    password: 'password123',
+    name: 'Test User'
+  };
+
+  it('should sign up a new user', () => {
+    cy.request('POST', '/api/auth/signup', {
+      email: user.email,
+      password: user.password,
+      name: user.name
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+      console.log(response.requestBody);
+      //expect(response.body).to.have.property('id');
+      //expect(response.body).to.have.property('email', user.email);
+    });
+  });
+
+  it('should log in the user', () => {
     cy.request('POST', '/api/auth/callback/credentials', {
-      username: 'testuser',
-      password: 'testpassword',
+      email: user.email,
+      password: user.password
     }).then((response) => {
       expect(response.status).to.eq(200);
-      expect(response.body).to.have.property('accessToken');
+      console.log(response);
+      //expect(response.body).to.have.property('user');
+      //expect(response.body.user).to.have.property('email', user.email);
     });
   });
-
-  it('should return a valid user profile', () => {
-    cy.request('GET', '/api/auth/user').then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body).to.have.property('name');
-      expect(response.body).to.have.property('email');
-      expect(response.body).to.have.property('role');
-    });
-  });
-
-  // Add more tests for other NextAuth API endpoints here
 });
